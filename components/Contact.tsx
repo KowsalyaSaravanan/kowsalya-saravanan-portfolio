@@ -29,35 +29,20 @@ const Contact: React.FC = () => {
     setErrorMessage('');
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/send-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+      window.location.href = `mailto:${PERSONAL_INFO.email}?subject=Portfolio Contact from ${formData.name}&body=${encodeURIComponent(formData.message + '\n\nFrom: ' + formData.email)}`;
+      setSubmitStatus('success');
+      alert('Opening your email client...');
+      
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        message: ''
       });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setSubmitStatus('success');
-        alert('Message sent successfully! I will get back to you soon.');
-        
-        // Reset form
-        setFormData({
-          name: '',
-          email: '',
-          message: ''
-        });
-      } else {
-        setSubmitStatus('error');
-        setErrorMessage(data.error || 'Failed to send message');
-        alert(`Error: ${data.error || 'Failed to send message'}`);
-      }
     } catch (error) {
       setSubmitStatus('error');
-      setErrorMessage('Network error. Please try again or email me directly.');
-      alert('Network error. Please try again or email me directly.');
+      setErrorMessage('Failed to open email client.');
+      alert('Failed to open email client.');
       console.error('Error:', error);
     } finally {
       setIsSubmitting(false);
@@ -66,47 +51,47 @@ const Contact: React.FC = () => {
 
   return (
     <Section id="contact" title="Get In Touch">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 bg-surface/30 backdrop-blur-sm border border-white/5 rounded-3xl p-8 md:p-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 bg-surface/30 backdrop-blur-sm border border-white/5 rounded-lg p-5 md:p-8 lg:p-10">
         
         <div>
-          <h3 className="text-3xl md:text-4xl font-bold mb-6 leading-tight font-display">Let's build something intelligent.</h3>
-          <p className="text-gray-300 text-lg mb-10 leading-relaxed">
+          <h3 className="text-2xl md:text-3xl font-bold mb-5 leading-tight font-display">Let's build something intelligent.</h3>
+          <p className="text-gray-300 text-base md:text-lg mb-8 leading-7">
             I'm currently available for freelance projects or full-time opportunities.
             If you need expertise in NLP, Computer Vision, or MLOps, let's connect.
           </p>
 
-          <div className="space-y-6">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center text-accent">
+          <div className="space-y-5">
+            <div className="flex items-start gap-4">
+              <div className="w-11 h-11 flex-shrink-0 bg-white/5 rounded-lg flex items-center justify-center text-accent">
                 <Mail size={20} />
               </div>
-              <div>
+              <div className="min-w-0">
                 <p className="text-sm text-gray-500">Email</p>
-                <a href={`mailto:${PERSONAL_INFO.email}`} className="text-lg font-medium hover:text-accent transition-colors">
+                <a href={`mailto:${PERSONAL_INFO.email}`} className="text-base md:text-lg font-medium hover:text-accent transition-colors break-all">
                   {PERSONAL_INFO.email}
                 </a>
               </div>
             </div>
 
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center text-purple-500">
+            <div className="flex items-start gap-4">
+              <div className="w-11 h-11 flex-shrink-0 bg-white/5 rounded-lg flex items-center justify-center text-primary">
                 <Phone size={20} />
               </div>
-              <div>
+              <div className="min-w-0">
                 <p className="text-sm text-gray-500">Phone</p>
-                <a href={`tel:${PERSONAL_INFO.phone}`} className="text-lg font-medium hover:text-purple-400 transition-colors">
+                <a href={`tel:${PERSONAL_INFO.phone}`} className="text-base md:text-lg font-medium hover:text-primary transition-colors">
                   {PERSONAL_INFO.phone}
                 </a>
               </div>
             </div>
 
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center text-green-500">
+            <div className="flex items-start gap-4">
+              <div className="w-11 h-11 flex-shrink-0 bg-white/5 rounded-lg flex items-center justify-center text-secondary">
                 <MapPin size={20} />
               </div>
-              <div>
+              <div className="min-w-0">
                 <p className="text-sm text-gray-500">Location</p>
-                <p className="text-lg font-medium">
+                <p className="text-base md:text-lg font-medium">
                   {PERSONAL_INFO.location}
                 </p>
               </div>
@@ -172,7 +157,7 @@ const Contact: React.FC = () => {
             transition={{ type: "spring", stiffness: 400, damping: 10 }}
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-white text-black font-bold py-4 rounded-lg flex items-center justify-center gap-2 shadow-lg shadow-white/5 disabled:opacity-70 disabled:cursor-not-allowed"
+            className="w-full bg-white text-black font-bold py-3.5 rounded-lg flex items-center justify-center gap-2 shadow-lg shadow-white/5 disabled:opacity-70 disabled:cursor-not-allowed"
           >
             {isSubmitting ? (
               <>Sending... <Loader2 className="animate-spin" size={18} /></>

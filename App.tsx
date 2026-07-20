@@ -1,5 +1,5 @@
 
-import React, { Suspense, useState, useEffect } from 'react';
+import React, { Suspense } from 'react';
 import Background3D from './components/Background3D';
 import AIBackground from './components/AIBackground';
 import AIIntro from './components/AIIntro';
@@ -32,7 +32,7 @@ const DockIcon = ({ icon: Icon, label, target, scrollToSection, mouseX }: any) =
   });
 
   // Scale icon based on distance - disabled on mobile
-  const widthSync = useTransform(distance, [-150, 0, 150], isMobile ? [48, 48, 48] : [40, 80, 40]);
+  const widthSync = useTransform(distance, [-150, 0, 150], isMobile ? [42, 42, 42] : [40, 56, 40]);
   const width = useTransform(widthSync, (val) => val);
 
   return (
@@ -40,12 +40,12 @@ const DockIcon = ({ icon: Icon, label, target, scrollToSection, mouseX }: any) =
       ref={ref}
       href="#"
       onClick={(e) => scrollToSection(e, target)}
-      style={{ width: isMobile ? 48 : width }}
-      className="aspect-square rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center relative group cursor-pointer hover:bg-white/20 transition-colors flex-shrink-0"
+      style={{ width: isMobile ? 42 : width }}
+      className="aspect-square rounded-lg bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center relative group cursor-pointer hover:bg-white/20 transition-colors flex-shrink-0"
     >
-      <Icon size={isMobile ? 18 : 20} className="text-white group-hover:text-primary transition-colors" />
+      <Icon size={isMobile ? 17 : 18} className="text-white group-hover:text-primary transition-colors" />
       {/* Tooltip */}
-      <span className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 bg-black/80 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-10">
+      <span className="absolute -top-9 left-1/2 -translate-x-1/2 px-2 py-1 bg-black/80 text-white text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-10">
         {label}
       </span>
     </motion.a>
@@ -53,30 +53,7 @@ const DockIcon = ({ icon: Icon, label, target, scrollToSection, mouseX }: any) =
 };
 
 const App: React.FC = () => {
-  const [portfolioData, setPortfolioData] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
   const mouseX = useMotionValue(Infinity);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Use environment variable for API URL, fallback to localhost for development
-        const apiUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
-        const response = await fetch(`${apiUrl}/api/portfolio`);
-        if (response.ok) {
-          const data = await response.json();
-          setPortfolioData(data);
-        } else {
-          console.warn("Backend not reachable, using fallback.");
-        }
-      } catch (error) {
-        console.warn("API Fetch failed.");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
 
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
@@ -102,7 +79,7 @@ const App: React.FC = () => {
   ];
 
   return (
-    <div className="relative min-h-screen text-slate-200 font-sans selection:bg-primary/30 selection:text-white pb-32">
+    <div className="relative min-h-screen text-slate-200 font-sans selection:bg-primary/30 selection:text-white pb-28">
       {/* AI World Intro */}
       <AIIntro />
 
@@ -121,14 +98,14 @@ const App: React.FC = () => {
         <Hero />
         <About />
         <Skills />
-        <Projects data={portfolioData?.projects} loading={loading} />
+        <Projects />
         <Experience />
         <Contact />
       </main>
 
       {/* Holographic Dock Navigation */}
       <div 
-        className="fixed bottom-4 md:bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-end gap-2 md:gap-4 px-3 md:px-4 py-2 md:py-3 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl max-w-[95vw] overflow-x-auto"
+        className="fixed bottom-4 md:bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-end gap-2 px-2.5 md:px-3 py-2 rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl max-w-[94vw] overflow-x-auto"
         onMouseMove={(e) => mouseX.set(e.pageX)}
         onMouseLeave={() => mouseX.set(Infinity)}
       >

@@ -1,36 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Section from './Section';
 import { Briefcase, GraduationCap, MapPin, Calendar, TrendingUp } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { EXPERIENCE, EDUCATION } from '../constants';
 
 const Experience: React.FC = () => {
-  const [experience, setExperience] = useState<any[]>([]);
-
-  useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/experience')
-      .then(res => res.json())
-      .then(data => setExperience(data.experience || []))
-      .catch(err => console.error('Failed to load experience:', err));
-  }, []);
+  const experience = EXPERIENCE;
 
   return (
     <Section id="experience" title="Experience & Education">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12">
         {/* Work Experience */}
         <div>
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="flex items-center gap-3 mb-8"
+            className="flex items-center gap-3 mb-6"
           >
-            <div className="w-12 h-12 rounded-xl bg-accent/20 flex items-center justify-center">
+            <div className="w-11 h-11 rounded-lg bg-accent/20 flex items-center justify-center">
               <Briefcase className="text-accent" size={24} />
             </div>
-            <h3 className="text-2xl font-bold font-display">Work History</h3>
+            <h3 className="text-xl md:text-2xl font-bold font-display">Work History</h3>
           </motion.div>
           
-          <div className="space-y-8 border-l-2 border-accent/30 pl-8 ml-3 relative">
+          <div className="space-y-6 border-l-2 border-accent/30 pl-6 md:pl-8 ml-3 relative">
             {experience.map((exp, idx) => (
               <motion.div
                 key={idx}
@@ -51,26 +45,26 @@ const Experience: React.FC = () => {
                   <div className="absolute inset-0 rounded-full bg-accent animate-ping opacity-75" />
                 </motion.div>
                 
-                <div className="bg-surface/30 border border-white/5 rounded-xl p-6 hover:bg-surface/50 hover:border-accent/30 transition-all group-hover:shadow-lg group-hover:shadow-accent/10">
+                <div className="bg-surface/30 border border-white/5 rounded-lg p-5 md:p-6 hover:bg-surface/50 hover:border-accent/30 transition-all group-hover:shadow-lg group-hover:shadow-accent/10">
                   <div className="mb-3">
-                    <h4 className="text-2xl font-bold text-white mb-1 group-hover:text-accent transition-colors">{exp.title}</h4>
-                    <p className="text-lg text-accent font-semibold">{exp.company}</p>
+                    <h4 className="text-xl font-bold text-white mb-1 group-hover:text-accent transition-colors leading-snug">{exp.title}</h4>
+                    <p className="text-base text-accent font-semibold leading-snug">{exp.company}</p>
                   </div>
                   
-                  <div className="flex flex-wrap gap-3 text-sm text-gray-500 mb-5">
-                    <span className="flex items-center gap-1.5 px-3 py-1 bg-white/5 rounded-full font-mono">
+                  <div className="flex flex-wrap gap-2 text-xs md:text-sm text-gray-400 mb-5">
+                    <span className="flex items-center gap-1.5 px-3 py-1 bg-white/5 rounded-md font-mono">
                       <Calendar size={14} />
                       {exp.period}
                     </span>
                     {exp.location && (
-                      <span className="flex items-center gap-1.5 px-3 py-1 bg-white/5 rounded-full">
+                      <span className="flex items-center gap-1.5 px-3 py-1 bg-white/5 rounded-md">
                         <MapPin size={14} />
                         {exp.location}
                       </span>
                     )}
                   </div>
                   
-                  <p className="text-gray-300 mb-5 leading-relaxed text-base">{exp.description}</p>
+                  <p className="text-gray-300 mb-5 leading-7 text-sm md:text-base">{exp.description}</p>
                   
                   <div className="space-y-2">
                     {exp.achievements?.map((item: string, i: number) => (
@@ -80,7 +74,7 @@ const Experience: React.FC = () => {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: idx * 0.2 + i * 0.1 }}
-                        className="flex items-start gap-2 text-gray-400 text-sm"
+                        className="flex items-start gap-2 text-gray-400 text-sm leading-6"
                       >
                         <TrendingUp size={16} className="text-accent mt-0.5 flex-shrink-0" />
                         <span className="text-gray-300">{item}</span>
@@ -99,43 +93,32 @@ const Experience: React.FC = () => {
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="flex items-center gap-3 mb-8"
+            className="flex items-center gap-3 mb-6"
           >
-            <div className="w-12 h-12 rounded-xl bg-secondary/20 flex items-center justify-center">
+            <div className="w-11 h-11 rounded-lg bg-secondary/20 flex items-center justify-center">
               <GraduationCap className="text-secondary" size={24} />
             </div>
-            <h3 className="text-2xl font-bold font-display">Education</h3>
+            <h3 className="text-xl md:text-2xl font-bold font-display">Education</h3>
           </motion.div>
           
-          <div className="space-y-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              whileHover={{ y: -4 }}
-              className="bg-surface/30 border border-white/5 p-6 rounded-xl hover:bg-surface/50 hover:border-secondary/30 transition-all hover:shadow-lg hover:shadow-secondary/10 group"
-            >
-              <h4 className="text-lg font-bold text-white mb-1 group-hover:text-secondary transition-colors">B.Sc. in Computer Science</h4>
-              <p className="text-gray-400 mb-3">Asan Memorial Arts and Science College, Chennai</p>
-              <span className="inline-block px-3 py-1 bg-secondary/10 border border-secondary/20 rounded-full text-sm text-secondary font-mono">
-                2023
-              </span>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              whileHover={{ y: -4 }}
-              className="bg-surface/30 border border-white/5 p-6 rounded-xl hover:bg-surface/50 hover:border-secondary/30 transition-all hover:shadow-lg hover:shadow-secondary/10 group"
-            >
-              <h4 className="text-lg font-bold text-white mb-1 group-hover:text-secondary transition-colors">Data Science Certification</h4>
-              <p className="text-gray-400 mb-3">Quality Thought</p>
-              <span className="inline-block px-3 py-1 bg-secondary/10 border border-secondary/20 rounded-full text-sm text-secondary font-mono">
-                4 months
-              </span>
-            </motion.div>
+          <div className="space-y-5">
+            {EDUCATION.map((edu, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1 }}
+                whileHover={{ y: -4 }}
+                className="bg-surface/30 border border-white/5 p-5 md:p-6 rounded-lg hover:bg-surface/50 hover:border-secondary/30 transition-all hover:shadow-lg hover:shadow-secondary/10 group"
+              >
+                <h4 className="text-lg font-bold text-white mb-1 group-hover:text-secondary transition-colors">{edu.degree}</h4>
+                <p className="text-gray-400 mb-3 leading-6">{edu.school}</p>
+                <span className="inline-block px-3 py-1 bg-secondary/10 border border-secondary/20 rounded-md text-sm text-secondary font-mono">
+                  {edu.year}
+                </span>
+              </motion.div>
+            ))}
           </div>
         </div>
       </div>
