@@ -1,10 +1,12 @@
 export interface Project {
+  id?: string;
   title: string;
   category: string;
   description: string;
   tech: string[];
   live?: boolean;
   url?: string;
+  github?: string;
 }
 
 export interface Experience {

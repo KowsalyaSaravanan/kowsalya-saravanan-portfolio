@@ -1,15 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 
-const TerminalAbout: React.FC = () => {
-  const [about, setAbout] = useState<any>({ summary: '', description: '' });
+import { ABOUT } from '../constants';
 
-  useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/about')
-      .then(res => res.json())
-      .then(data => setAbout(data))
-      .catch(err => console.error('Failed to load:', err));
-  }, []);
+const TerminalAbout: React.FC = () => {
+  const about = ABOUT;
 
   const points = [
     { id: 1, text: about.summary, color: 'text-blue-400' },

@@ -1,16 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, Github } from 'lucide-react';
+import { PROJECTS } from '../constants';
 
 const TerminalProjects: React.FC = () => {
-  const [projects, setProjects] = useState<any[]>([]);
-
-  useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/projects')
-      .then(res => res.json())
-      .then(data => setProjects(data.projects || []))
-      .catch(err => console.error('Failed to load:', err));
-  }, []);
+  const projects = PROJECTS;
 
   return (
     <section className="relative min-h-screen bg-gradient-to-br from-red-950/20 via-black to-black py-20 px-4">
@@ -35,7 +29,7 @@ const TerminalProjects: React.FC = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((project, idx) => (
             <motion.div
-              key={project.id}
+              key={idx}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}

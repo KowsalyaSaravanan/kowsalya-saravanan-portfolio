@@ -1,20 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { Terminal, Code, Braces } from 'lucide-react';
+import { Terminal } from 'lucide-react';
+
+import { PERSONAL_INFO } from '../constants';
 
 const TerminalHero: React.FC = () => {
-  const [personal, setPersonal] = useState<any>({
-    name: 'Loading...',
-    title: '',
-    tagline: ''
-  });
-
-  useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/personal')
-      .then(res => res.json())
-      .then(data => setPersonal(data))
-      .catch(err => console.error('Failed to load:', err));
-  }, []);
+  const personal = PERSONAL_INFO;
 
   return (
     <div className="relative min-h-screen bg-black overflow-hidden">
